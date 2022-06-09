@@ -1,0 +1,71 @@
+.container{
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.loginWindow{
+    min-width: 500px;
+    border: 1px solid black;
+    width: 30%;
+    height: auto;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.formTitle{
+    margin: auto;
+    margin-top: 10px;
+    font-family: 'Lobster', cursive;
+    font-size: 70px;
+    height: 10%;
+}
+
+.formContainer{
+    display: flex;
+    align-items: center;
+    height: 90%;
+    flex-direction: column;
+}    
+
+.form{
+    padding-top: 15px;
+}
+
+.formBotton{
+    width: 80%;
+    align-items: bottom;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.input{
+    width: 80%;
+    padding-top: 15px;
+}
+
+.toRegister{
+    padding-bottom: 15px;
+}
+
+@media (max-width:930px) {
+    .loginWindow{
+        border: 1px solid black;
+        width: 60%;
+        height: auto;
+        border-radius: 14px;
+    }
+}
+
+@media (max-width:700px) {
+    .loginWindow{
+        max-width: 300px;
+        border: 1px solid black;
+        width: 80%;
+        height: auto;
+     border-radius: 14px;
+    }
+}  
