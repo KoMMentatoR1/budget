@@ -1,24 +1,29 @@
-import { Button, IconButton, InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
+import { Alert, Button, IconButton, InputAdornment, TextField } from "@mui/material";
+import { useState, useContext } from "react";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useInput from "../../items/hooks/useInput";
 import s from "./Register.module.css"
-import { Link } from "react-router-dom";
-import useFetching from "../../items/hooks/useFetchng";
+import useFetching from "../../items/hooks/useFetching";
 import UserServis from "../../items/UserServis";
 import Loader from "../../components/Loader";
+import { AuthContext } from "../../items/context";
+import { NavLink } from "react-router-dom";
 
 const Register = () => {
+    const { setIsAuth } = useContext(AuthContext)
     const name = useInput("", {isEmpty: true})
     const lastname = useInput("", {isEmpty: true})
     const email = useInput("", {isEmpty: true, isEmail: true})
     const password = useInput("", {isEmpty: true, minLength: 8})
     const repeatPassword = useInput("", {isEmpty: true, minLength: 8})
+    const [fetchData, setFetchData] = useState('')
 
     const [registerFetch, isLoading, error] = useFetching(async () => {
-        const data = await UserServis.register(name, lastname, email, password)
-        console.log(data);
+        const data = await UserServis.register(name.value, lastname.value, email.value, password.value)
+        if (data){
+            setFetchData(JSON.parse(data))
+        }
     })
 
     const [passVisible, setPassVisible] = useState("")
@@ -34,13 +39,23 @@ const Register = () => {
     const submitForm = (e) => {
         e.preventDefault();
         registerFetch()
+        if (fetchData){
+            setIsAuth({
+                auth: true,
+                id: fetchData.id,
+                name: fetchData.firstname,
+                lastname: fetchData.lastname,
+                login: fetchData.login
+            })
+            localStorage.setItem("auth", JSON.stringify({auth: true, id: fetchData.id, name: fetchData.firstname, lastname: fetchData.lastname, login: fetchData.login}))
+        }
     }
 
     const comparePassword = () => {
-        if (!password.isDirty) return 1
-        if (!repeatPassword.isDirty) return 1
-        if (password.value === repeatPassword.value) return 1
-        else return 0
+        if (!password.isDirty) return true
+        if (!repeatPassword.isDirty) return true
+        if (password.value === repeatPassword.value) return true
+        else return false
     }
     
     const setText = (pass) => {
@@ -137,13 +152,14 @@ const Register = () => {
                     </div>
                 </div>
                 <div className={s.formBotton}>
-                    <Button disabled={!name.isValid || !lastname.isValid|| !email.isValid || !password.isValid || !repeatPassword.isValid  }  type="submit" variant="contained" sx={{width: "100%"}}>Зарегистрироваться</Button>
+                    <Button disabled={!name.isValid || !lastname.isValid|| !email.isValid || !password.isValid || !repeatPassword.isValid || password.value != repeatPassword.value }  type="submit" variant="contained" sx={{width: "100%"}}>Зарегистрироваться</Button>
                 </div>
                 <div className={s.toRegister}>
-                    <Link to="/login">Назад</Link>
+                    <NavLink to="/login">Назад</NavLink>
                 </div>
             </form>
         </div>
+        {error ? <Alert severity="error">{error}</Alert> : ""}
     </div>
      );
 }

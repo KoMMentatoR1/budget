@@ -2,7 +2,7 @@ import axios from "../http";
 
 export default class UserServis{
     static async login(login, password){
-        const respons = await axios.post("", {
+        const respons = await axios.post("/login", {
             login: login,
             password: password
         })
@@ -11,12 +11,11 @@ export default class UserServis{
 
     static async register(name, lastname, login, password){
         const respons = await axios.post("/register", {
-            name: name,
+            firstname: name,
             lastname: lastname,
             login: login,
-            password: password,
-            
+            password: password,   
         })
         return respons.data
-    }
+    }    
 }

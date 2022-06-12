@@ -5,6 +5,7 @@ const useValidation = (value, validations) => {
     const [isEmail, setIsEmail] = useState(false)
     const [minLength, setMinLength] = useState(false)
     const [isValid, setIsValid] = useState(false)
+    const [isNumber, setIsNumber] = useState(false)
 
     useEffect(() => {
         for (const validation in validations){
@@ -14,25 +15,28 @@ const useValidation = (value, validations) => {
                     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
                     !re.test(String(value).toLowerCase()) ? setIsEmail(true) : setIsEmail(false)
                     break;
-                case 'minLength': value.length < validations[validation] ?  setMinLength(true) : setMinLength(false)   
+                case 'minLength': value.length < validations[validation] ?  setMinLength(true) : setMinLength(false); break;
+                case "isNumber": isNaN(value) ? setIsNumber(true) : setIsNumber(false)
+
             }
         }
     }, [value])
 
     useEffect(() => {
-        if (isEmail || minLength || isEmpty) {
+        if (isEmail || minLength || isEmpty || isNumber) {
             setIsValid(false)
         }
         else {
             setIsValid(true)
         }
-    }, [isEmail, minLength, isEmpty])
+    }, [isEmail, minLength, isEmpty, isNumber])
 
     return {
         isEmpty,
         isEmail,
         minLength,
-        isValid
+        isValid,
+        isNumber,
     }
 }
 

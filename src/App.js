@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 function App() {
   const [isAuth, setIsAuth] = useState({
     auth: false,
+    id: -1,
     name: "",
     lastname: "",
     login:""
@@ -19,6 +20,7 @@ function App() {
     else{
       setIsAuth({
         auth: false,
+        id: -1,
         name: "",
         lastname: "",
         login:""

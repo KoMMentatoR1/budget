@@ -1,0 +1,45 @@
+.container{
+    display: flex;
+    height: 93vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.sendDashboard{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    min-height: 40px;
+    margin-top: 20px;
+    border: 1px solid black;
+    border-radius: 14px;
+}
+
+.sendForm{
+    display: flex;
+    flex-direction: column;
+    width: 100%
+    
+}
+
+.formTitle{
+    margin: auto;
+    margin-top: 10px;
+    font-family: 'Lobster', cursive;
+    font-size: 50px;
+    height: 30%;
+}
+
+.formInput{
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: auto;
+    width: 80%;
+}
+
+.formContainer{
+    width: 40%;
+}
