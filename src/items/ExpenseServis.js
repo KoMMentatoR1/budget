@@ -1,10 +1,11 @@
 import axios from "../http";
 
 export default class ExpenseServis{
-    static async send(userId, expenseType, cost){
+    static async send(userId, expenseType, direction, cost){
         const respons = await axios.post("/", {
             userId: userId,
             expenseType: expenseType,
+            direction: direction,
             cost: cost
         })
         return respons.data

@@ -27,7 +27,7 @@ const SendExpense = () => {
     };
 
     const [sendFetch, isLoading, error] = useFetching(async () => {
-        const data = await ExpenseServis.send(isAuth.id, direction, cost.value)
+        const data = await ExpenseServis.send(isAuth.id, buy, direction, cost.value)
     })
     
     const expenditure = [
