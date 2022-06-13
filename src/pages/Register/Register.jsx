@@ -17,13 +17,23 @@ const Register = () => {
     const email = useInput("", {isEmpty: true, isEmail: true})
     const password = useInput("", {isEmpty: true, minLength: 8})
     const repeatPassword = useInput("", {isEmpty: true, minLength: 8})
-    const [fetchData, setFetchData] = useState('')
 
     const [registerFetch, isLoading, error] = useFetching(async () => {
         const data = await UserServis.register(name.value, lastname.value, email.value, password.value)
-        if (data){
-            setFetchData(JSON.parse(data))
-        }
+        setIsAuth({
+            auth: true,
+            id: data.id,
+            name: data.firstname,
+            lastname: data.lastname,
+            login: data.login
+        })
+        localStorage.setItem("auth", JSON.stringify({
+            auth: true,
+            id: data.id,
+            name: data.firstname,
+            lastname: data.lastname,
+            login: data.login
+        }))
     })
 
     const [passVisible, setPassVisible] = useState("")
@@ -39,16 +49,6 @@ const Register = () => {
     const submitForm = (e) => {
         e.preventDefault();
         registerFetch()
-        if (fetchData){
-            setIsAuth({
-                auth: true,
-                id: fetchData.id,
-                name: fetchData.firstname,
-                lastname: fetchData.lastname,
-                login: fetchData.login
-            })
-            localStorage.setItem("auth", JSON.stringify({auth: true, id: fetchData.id, name: fetchData.firstname, lastname: fetchData.lastname, login: fetchData.login}))
-        }
     }
 
     const comparePassword = () => {

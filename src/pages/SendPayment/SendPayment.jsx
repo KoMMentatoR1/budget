@@ -1,6 +1,6 @@
 import { Alert, Button, TextField } from "@mui/material";
 import Header from "../../components/Header/Header";
-import s from "./SendExpense.module.css"
+import s from "./SendPayment.module.css"
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -8,26 +8,26 @@ import { useContext, useState } from "react";
 import FormControl from '@mui/material/FormControl';
 import useInput from "../../items/hooks/useInput";
 import useFetching from "../../items/hooks/useFetching";
-import ExpenseServis from "../../items/ExpenseServis";
+import PaymentServis from "../../items/PaymentServis";
 import { AuthContext } from "../../items/context";
 import Loader from "../../components/Loader";
 
-const SendExpense = () => {
+const SendPayment = () => {
     const {isAuth} = useContext(AuthContext)
-    const [buy, setBuy] = useState("")
-    const [direction, setDirection] = useState("")
+    const [type, setType] = useState("")
+    const [status, setStatus] = useState("")
     const cost = useInput("", {isNumber: true, isEmpty: true})
 
     const handleChange = (event) => {
-        setBuy(event.target.value);
+        setType(event.target.value);
     };
 
-    const handleChangeDirection = (event) => {
-        setDirection(event.target.value);
+    const handleChangeStatus = (event) => {
+        setStatus(event.target.value);
     };
 
     const [sendFetch, isLoading, error] = useFetching(async () => {
-        const data = await ExpenseServis.send(isAuth.id, buy, direction, cost.value)
+        await PaymentServis.send(isAuth.id, type, status, cost.value)
     })
     
     const expenditure = [
@@ -66,29 +66,29 @@ const SendExpense = () => {
                                 <Select
                                     labelId="direction"
                                     id="direction-select"
-                                    value={direction}
+                                    value={status}
                                     label="Доход / Расход"
-                                    onChange={handleChangeDirection}
+                                    onChange={handleChangeStatus}
                                 >
                                     <MenuItem value={'income'}>Доход</MenuItem>
                                     <MenuItem value={'expenditure'}>Расход</MenuItem>
                             </Select>
                         </FormControl>  
-                        <div className={s.sendDashboard} style={{display: `${direction ? "flex" : "none"}`}}>
-                                <div className={s.formTitle}>Добавить {direction == "income" ? "доход" : "расход"}</div>
+                        <div className={s.sendDashboard} style={{display: `${status ? "flex" : "none"}`}}>
+                                <div className={s.formTitle}>Добавить {status === "income" ? "доход" : "расход"}</div>
                                 <form className={s.sendForm} onSubmit={(e) => submitForm(e)}>
-                                    <div className={s.formInput}><TextField value={cost.value}  onChange={cost.onChange} onBlur={cost.onBlur} error={!cost.isValid && cost.isDirty} helperText={ !cost.isValid && cost.isDirty ? "Сумма введена не верно" : '' } sx={{width: "100%"}} label={`Введите сумму ${direction == "income" ? "дохода" : "покупки"}`} variant="outlined" /></div>
+                                    <div className={s.formInput}><TextField value={cost.value}  onChange={cost.onChange} onBlur={cost.onBlur} error={!cost.isValid && cost.isDirty} helperText={ !cost.isValid && cost.isDirty ? "Сумма введена не верно" : '' } sx={{width: "100%"}} label={`Введите сумму ${status === "income" ? "дохода" : "покупки"}`} variant="outlined" /></div>
                                     <div className={s.formInput}>
                                         <FormControl fullWidth>
-                                            <InputLabel id="buy-label">Тип {` ${direction == "income" ? "дохода" : "покупки"}`}</InputLabel>
+                                            <InputLabel id="buy-label">Тип {` ${status === "income" ? "дохода" : "покупки"}`}</InputLabel>
                                             <Select
                                             labelId="buy-label"
                                             id="buy-select"
-                                            value={buy}
-                                            label={` ${direction == "income" ? "Категория дохода" : "Категория покупки"}`}
+                                            value={type}
+                                            label={` ${status === "income" ? "Категория дохода" : "Категория покупки"}`}
                                             onChange={handleChange}
                                             >
-                                                {direction == "income" ? (
+                                                {status === "income" ? (
                                                     income.map((el, index) => (
                                                         <MenuItem value={el.value} key={index}>{el.text}</MenuItem>
                                                     ))
@@ -112,4 +112,4 @@ const SendExpense = () => {
     );
 }
  
-export default SendExpense;
+export default SendPayment;

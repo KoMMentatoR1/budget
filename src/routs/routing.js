@@ -1,8 +1,8 @@
 import { Navigate } from "react-router-dom";
-import GetExpense from "../pages/GetExpense/GetExpense.jsx";
+import GetPayment from "../pages/GetPayment/GetPayment.jsx";
 import  Login  from "../pages/Login/Login.jsx";
 import Register from "../pages/Register/Register.jsx"
-import SendExpense from "../pages/SendExpense/SendExpense.jsx";
+import SendPayment from "../pages/SendPayment/SendPayment.jsx";
 
 export const publicRoutes = [
     {path: "/login", element: <Login />},
@@ -11,7 +11,7 @@ export const publicRoutes = [
 ]
 
 export const userRoutes = [
-    {path: "/getExpense", element: <GetExpense />},
-    {path: "/sendExpense", element: <SendExpense />},
-    {path: "*", element: <Navigate to="/sendExpense" replace />}
+    {path: "/getPayment", element: <GetPayment />},
+    {path: "/sendPayment", element: <SendPayment />},
+    {path: "*", element: <Navigate to="/sendPayment" replace />}
 ]

@@ -15,13 +15,23 @@ const Login = () => {
     const login = useInput("", {isEmpty: true})
     const password = useInput("", {isEmpty: true})
     const [passVisible, setPassVisible] = useState("")
-    const [fetchData, setFetchData] = useState('')
 
     const [loginFetch, isLoading, error] = useFetching(async () => {
         const data = await UserServis.login(login.value, password.value)
-        if (data){
-            setFetchData(JSON.parse(data))
-        }
+            setIsAuth({
+                auth: true,
+                id: data.id,
+                name: data.firstname,
+                lastname: data.lastname,
+                login: data.login
+            })
+            localStorage.setItem("auth", JSON.stringify({
+                auth: true,
+                id: data.id,
+                name: data.firstname,
+                lastname: data.lastname,
+                login: data.login
+            }))
     })
 
     const handleClickShowPassword = () => {
@@ -35,16 +45,8 @@ const Login = () => {
     const submitForm = (e) => {
         e.preventDefault();
         loginFetch()
-        if (fetchData){
-            setIsAuth({
-                auth: true,
-                id: fetchData.id,
-                name: fetchData.firstname,
-                lastname: fetchData.lastname,
-                login: fetchData.login
-            })
-            localStorage.setItem("auth", JSON.stringify({auth: true, id: fetchData.id, name: fetchData.firstname, lastname: fetchData.lastname, login: fetchData.login}))
-        }
+        
+        
     }  
 
     return ( 

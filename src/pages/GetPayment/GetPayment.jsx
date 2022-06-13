@@ -1,24 +1,24 @@
 import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import { AuthContext } from "../../items/context";
-import ExpenseServis from "../../items/ExpenseServis";
+import PaymentServis from "../../items/PaymentServis";
 import useFetching from "../../items/hooks/useFetching";
-import s from "./GetExpense.module.css"
+import s from "./GetPayment.module.css"
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
 import Chart from 'chart.js/auto';
 import BarChart from "../../components/BarChart/BarChart.jsx";
-import { Divider } from "@mui/material";
+import { Divider, Alert } from "@mui/material";
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import Loader from "../../components/Loader";
 
-const GetExpense = () => {
+const GetPayment = () => {
     const {isAuth} = useContext(AuthContext)
     const [expensesOne, setExpensesOne] = useState({})
-    const [direction, setDirection] = useState("expense")
+    const [status, setStatus] = useState("expense")
     
     const [year, setYear] = useState(new Date().getFullYear())
 
@@ -30,7 +30,7 @@ const GetExpense = () => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
-        direction === "expense" ? setDirection("income") : setDirection("expense")
+        status === "expense" ? setStatus("income") : setStatus("expense")
     };
 
     const variableYear = [2022]
@@ -44,7 +44,7 @@ const GetExpense = () => {
         datasets: [
         {
             id: 1,
-            label: direction === "expense" ? "Расходы" : "Доходы",
+            label: status === "expense" ? "Расходы" : "Доходы",
             data: [5, 6, 7],
             backgroundColor: ['rgba(54, 162, 235, 0.2)'],
             borderColor: ['rgb(54, 162, 235)'],
@@ -75,17 +75,17 @@ const GetExpense = () => {
     }
 
     const [expenseFetchOne, isLoadingExpenseOne, errorExpenseOne] = useFetching(async () => {
-        const expenses = await ExpenseServis.get(isAuth.id, year, direction)
+        const expenses = await PaymentServis.get(isAuth.id, year, status)
         setExpensesOne(expenses)   
     })
 
     useEffect(() => {
         expenseFetchOne()
-        console.log(1);
-    }, [direction, year])
+    }, [status, year])
 
     return (
         <div>
+            {isLoadingExpenseOne ? <Loader /> : ""} 
             <Header>
                 <Tabs value={value} variant="fullWidth"  onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Расходы" />
@@ -107,18 +107,19 @@ const GetExpense = () => {
                     </Select>
                 </FormControl>
                 <div className={s.container} > 
-                <TabPanel value={value} index={0}>
-                    <div className={s.titleMainGraf}>Все расходы</div>
-                    <BarChart data={data}/>
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <div className={s.titleMainGraf}>Все доходы</div>
-                    <BarChart data={data}/>
-                </TabPanel>
+                    <TabPanel value={value} index={0}>
+                        <div className={s.titleMainGraf}>Все расходы</div>
+                        <BarChart data={data}/>
+                    </TabPanel>
+                    <TabPanel value={value} index={1}>
+                        <div className={s.titleMainGraf}>Все доходы</div>
+                        <BarChart data={data}/>
+                    </TabPanel>
                 </div>
+                {errorExpenseOne ? <Alert severity="error">{errorExpenseOne}</Alert> : ""}
             </Header>
         </div>
     );
 }
  
-export default GetExpense;
+export default GetPayment;

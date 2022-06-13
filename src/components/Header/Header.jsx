@@ -9,10 +9,10 @@ const Header = (props) => {
     return (
         <div className= {s.container}>
             <header>
-                <NavLink className={s.linkMenu} to="/getExpense">
+                <NavLink className={s.linkMenu} to="/getPayment">
                     <Button variant="outlined" sx={{marginRight:"20px", color: "white", borderColor:"white"}}>Все расходы / доходы</Button>
                 </NavLink>
-                <NavLink className={s.linkMenu} to="/sendExpense">
+                <NavLink className={s.linkMenu} to="/sendPayment">
                     <Button variant="outlined" sx={{marginRight:"20px", color: "white", borderColor:"white"}}>Добавить расход / доход</Button>
                 </NavLink>
                 <Button variant="outlined" onClick={(e) => {localStorage.removeItem("auth"); setIsAuth({})}} sx={{marginRight:"20px", color: "white", borderColor:"white"}}>Выход</Button>
