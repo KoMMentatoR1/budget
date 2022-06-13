@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import { AuthContext } from "../../items/context";
-import PaymentServis from "../../items/PaymentServis";
+import PaymentServise from "../../items/PaymentServise";
 import useFetching from "../../items/hooks/useFetching";
 import s from "./GetPayment.module.css"
 import Tabs from '@mui/material/Tabs';
@@ -74,7 +74,7 @@ const GetPayment = () => {
     }
 
     const [expenseFetchOne, isLoadingExpenseOne, errorExpenseOne] = useFetching(async () => {
-        const expenses = await PaymentServis.get(isAuth.id, year, status)
+        const expenses = await PaymentServise.get(isAuth.id, year, status)
         setExpensesOne(expenses)   
     })
 

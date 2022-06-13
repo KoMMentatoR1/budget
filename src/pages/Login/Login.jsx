@@ -5,7 +5,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { useContext, useState } from "react";
 import useFetching from "../../items/hooks/useFetching";
-import UserServis from "../../items/UserServis";
+import UserServise from "../../items/UserServise";
 import Loader from "../../components/Loader";
 import { AuthContext } from "../../items/context";
 import { NavLink } from "react-router-dom";
@@ -17,7 +17,7 @@ const Login = () => {
     const [passVisible, setPassVisible] = useState("")
 
     const [loginFetch, isLoading, error] = useFetching(async () => {
-        const data = await UserServis.login(login.value, password.value)
+        const data = await UserServise.login(login.value, password.value)
             setIsAuth({
                 auth: true,
                 id: data.id,

@@ -5,7 +5,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import useInput from "../../items/hooks/useInput";
 import s from "./Register.module.css"
 import useFetching from "../../items/hooks/useFetching";
-import UserServis from "../../items/UserServis";
+import UserServise from "../../items/UserServise";
 import Loader from "../../components/Loader";
 import { AuthContext } from "../../items/context";
 import { NavLink } from "react-router-dom";
@@ -19,7 +19,7 @@ const Register = () => {
     const repeatPassword = useInput("", {isEmpty: true, minLength: 8})
 
     const [registerFetch, isLoading, error] = useFetching(async () => {
-        const data = await UserServis.register(name.value, lastname.value, email.value, password.value)
+        const data = await UserServise.register(name.value, lastname.value, email.value, password.value)
         setIsAuth({
             auth: true,
             id: data.id,

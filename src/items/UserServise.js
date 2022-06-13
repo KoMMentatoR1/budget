@@ -1,21 +1,21 @@
 import axios from "../http";
 
-export default class UserServis{
+export default class UserServise{
     static async login(login, password){
-        const respons = await axios.post("/authorization", {
+        const response = await axios.post("/authorization", {
             login: login,
             password: password
         })
-        return respons.data
+        return response.data
     }
 
     static async register(name, lastname, login, password){
-        const respons = await axios.post("/registration", {
+        const response = await axios.post("/registration", {
             firstname: name,
             lastname: lastname,
             login: login,
             password: password,   
         })
-        return respons.data
+        return response.data
     }    
 }

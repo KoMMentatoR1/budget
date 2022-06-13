@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import FormControl from '@mui/material/FormControl';
 import useInput from "../../items/hooks/useInput";
 import useFetching from "../../items/hooks/useFetching";
-import PaymentServis from "../../items/PaymentServis";
+import PaymentServise from "../../items/PaymentServise";
 import { AuthContext } from "../../items/context";
 import Loader from "../../components/Loader";
 
@@ -16,7 +16,7 @@ const SendPayment = () => {
     const {isAuth} = useContext(AuthContext)
     const [type, setType] = useState("")
     const [status, setStatus] = useState("")
-    const cost = useInput("", {isNumber: true, isEmpty: true})
+    const sum = useInput("", {isNumber: true, isEmpty: true})
 
     const handleChange = (event) => {
         setType(event.target.value);
@@ -27,7 +27,7 @@ const SendPayment = () => {
     };
 
     const [sendFetch, isLoading, error] = useFetching(async () => {
-        await PaymentServis.send(isAuth.id, type, status, cost.value)
+        await PaymentServise.send(isAuth.id, type, status, sum.value)
     })
     
     const expenditure = [
@@ -77,7 +77,7 @@ const SendPayment = () => {
                         <div className={s.sendDashboard} style={{display: `${status ? "flex" : "none"}`}}>
                                 <div className={s.formTitle}>Добавить {status === "income" ? "доход" : "расход"}</div>
                                 <form className={s.sendForm} onSubmit={(e) => submitForm(e)}>
-                                    <div className={s.formInput}><TextField value={cost.value}  onChange={cost.onChange} onBlur={cost.onBlur} error={!cost.isValid && cost.isDirty} helperText={ !cost.isValid && cost.isDirty ? "Сумма введена не верно" : '' } sx={{width: "100%"}} label={`Введите сумму ${status === "income" ? "дохода" : "покупки"}`} variant="outlined" /></div>
+                                    <div className={s.formInput}><TextField value={sum.value}  onChange={sum.onChange} onBlur={sum.onBlur} error={!sum.isValid && sum.isDirty} helperText={ !sum.isValid && sum.isDirty ? "Сумма введена не верно" : '' } sx={{width: "100%"}} label={`Введите сумму ${status === "income" ? "дохода" : "покупки"}`} variant="outlined" /></div>
                                     <div className={s.formInput}>
                                         <FormControl fullWidth>
                                             <InputLabel id="buy-label">Тип {` ${status === "income" ? "дохода" : "покупки"}`}</InputLabel>
