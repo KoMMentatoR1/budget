@@ -6,7 +6,6 @@ import useFetching from "../../items/hooks/useFetching";
 import s from "./GetPayment.module.css"
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import Chart from 'chart.js/auto';
 import BarChart from "../../components/BarChart/BarChart.jsx";
 import { Divider, Alert } from "@mui/material";
 import FormControl from '@mui/material/FormControl';
@@ -109,14 +108,15 @@ const GetPayment = () => {
                 <div className={s.container} > 
                     <TabPanel value={value} index={0}>
                         <div className={s.titleMainGraf}>Все расходы</div>
+                        {errorExpenseOne ? <Alert severity="error">{errorExpenseOne}</Alert> : ""}
                         <BarChart data={data}/>
                     </TabPanel>
                     <TabPanel value={value} index={1}>
                         <div className={s.titleMainGraf}>Все доходы</div>
+                        {errorExpenseOne ? <Alert severity="error">{errorExpenseOne}</Alert> : ""}
                         <BarChart data={data}/>
                     </TabPanel>
                 </div>
-                {errorExpenseOne ? <Alert severity="error">{errorExpenseOne}</Alert> : ""}
             </Header>
         </div>
     );

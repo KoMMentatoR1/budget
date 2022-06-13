@@ -103,10 +103,10 @@ const SendPayment = () => {
                                     </div>
                                     <Button sx={{width: "80%", margin: "auto", marginBottom: "10px" }} variant="contained" type="submit"> Отправить</Button>
                                 </form>
-                                {error ? <Alert severity="error">{error}</Alert> : ""}   
                         </div>
                     </div>
                 </div>
+                {error ? <Alert severity="error">{error}</Alert> : ""}  
             </Header>
         </div> 
     );
